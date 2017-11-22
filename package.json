@@ -33,6 +33,7 @@
     "webpack": "^3.8.1"
   },
   "devDependencies": {
+    "tslint": "^5.8.0",
     "webpack-dev-server": "^2.9.4"
   }
 }
