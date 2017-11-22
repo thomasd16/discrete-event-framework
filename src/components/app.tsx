@@ -1,8 +1,9 @@
 import * as React from "react";
-import { debounce } from "lodash";
 import { inject, observer } from "mobx-react";
 import { observable, computed, action } from "mobx";
 import { Store } from "../store/store";
+import { EventNode } from "./eventnode";
+import * as _ from "lodash";
 @inject("store") @observer
 export class App extends React.Component {
   @computed get store() { return (this.props as any).store as Store; }
@@ -12,7 +13,7 @@ export class App extends React.Component {
     viewport.width = clientWidth;
     viewport.height = clientHeight;
   }
-  @action.bound resize = debounce(() => {
+  @action.bound resize = _.debounce(() => {
     this.fitWindow();
   }, 500);
   @action.bound mouseMove(e: MouseEvent) {
@@ -40,11 +41,18 @@ export class App extends React.Component {
     const uistate = this.store.uiState;
     uistate.down = false;
   }
+  @action.bound click() {
+    const uistate = this.store.uiState;
+    if (uistate.ctrl) {
+      console.log("adding");
+      this.store.addNode(uistate.x, uistate.y);
+    }
+  }
   componentWillMount() {
     this.fitWindow();
     const { blur, resize, mouseDown, mouseUp, mouseMove, keyEvent } = this;
     window.addEventListener("resize", resize, true);
-    window.addEventListener("mousemove", mouseDown, true);
+    window.addEventListener("mousemove", mouseMove, true);
     window.addEventListener("mousedown", mouseDown, true);
     window.addEventListener("mouseup", mouseUp, true);
     window.addEventListener("keydown", keyEvent, true);
@@ -62,9 +70,11 @@ export class App extends React.Component {
     window.removeEventListener("blur", blur, true);
   }
   render() {
-    const {height,width} = this.store.viewPort;
+    console.log(this.store);
+    const { height, width } = this.store.viewPort;
     return (
-      <svg width={width} height={height}>
+      <svg onClick={this.click} width={width} height={height}>
+        {_.keys(this.store.eventNodes).map((id)=><EventNode id={+id} key={id}/>)}
       </svg>
     );
   }
