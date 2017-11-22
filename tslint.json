@@ -1,0 +1,10 @@
+{
+  "rules":{
+    "semicolon":true,
+    "indent":[true,"spaces",2],
+    "arrow-return-shorthand":[true, "ban-single-arg-parens"],
+    "no-switch-case-fall-through":true,
+    "max-line-length":[true, 120],
+    "no-default-export":true
+  }
+}
