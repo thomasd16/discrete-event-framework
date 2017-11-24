@@ -45,7 +45,6 @@ export class App extends React.Component {
   @action.bound click() {
     const uistate = this.store.uiState;
     if (uistate.ctrl) {
-      console.log("adding");
       this.store.addNode(uistate.x, uistate.y);
     }
   }
@@ -71,7 +70,6 @@ export class App extends React.Component {
     window.removeEventListener("blur", blur, true);
   }
   render() {
-    console.log(this.store);
     const { height, width } = this.store.viewPort;
     return (
       <svg onClick={this.click} width={width} height={height}>

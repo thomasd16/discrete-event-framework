@@ -17,4 +17,8 @@ export class Store {
   @action.bound addConnection(sourceNode: number) {
     this.connections = { ...this.connections, [this.connectionId++]: new Connection(sourceNode) };
   }
+  @action.bound removeConnection(id:number) {
+    const {[id]:_,...next} = this.connections;
+    this.connections = next;
+  }
 }
