@@ -4,7 +4,7 @@ import { observable, computed, action } from "mobx";
 import { Store } from "../store/store";
 import { EventNode } from "./eventnode";
 import * as _ from "lodash";
-import { Connection } from "./connection";
+import { ConnectionView } from "./connection";
 @inject("store") @observer
 export class App extends React.Component {
   @computed get store() { return (this.props as any).store as Store; }
@@ -74,7 +74,7 @@ export class App extends React.Component {
     return (
       <svg onClick={this.click} width={width} height={height}>
         {_.keys(this.store.eventNodes).map((id) => <EventNode id={+id} key={id} />)}
-        {_.keys(this.store.connections).map((id) => <Connection id={+id} key={id} />)}
+        {_.keys(this.store.connections).map((id) => <ConnectionView id={+id} key={id} />)}
       </svg>
     );
   }
