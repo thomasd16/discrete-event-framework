@@ -6,6 +6,13 @@ import { Store } from "../store/store";
 import * as vec from "../util/vec";
 import * as _ from "lodash";
 import { EventNode, Connection } from "../store";
+const arrowPath = (
+  <path
+    d="M 20 10 L 0 0 L 20 -10"
+    stroke="black"
+    fill={"none"}
+    strokeWidth={1} />
+);
 @inject("store") @observer
 export class ConnectionView extends React.Component<{ id: number }> {
   constructor(props) {
@@ -104,7 +111,14 @@ export class ConnectionView extends React.Component<{ id: number }> {
     return `M ${sx} ${sy} C ${sbx} ${sby} , ${ebx} ${eby} , ${ex} ${ey}`;
   }
   render() {
-    const { path } = this;
-    return <path d={path} fill={"none"} stroke={"black"} />;
+    const { path, targetAngle, targetPoint: { x: tx, y: ty } } = this;
+    return (
+      <g>
+        <path d={path} fill={"none"} stroke={"black"} />;
+        <g transform={`translate(${tx},${ty}) rotate(${vec.radiansToDegres(targetAngle)})`}>
+          {arrowPath}
+        </g>
+      </g>
+    );
   }
 }
